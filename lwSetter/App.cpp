@@ -25,7 +25,11 @@ CApp *app;
 BOOL CApp::InitInstance()
 {
 	// TODO:  выполните здесь индивидуальную инициализацию потоков
+	INITCOMMONCONTROLSEX icc;
+	icc.dwSize = sizeof(icc);
+	icc.dwICC = ICC_WIN95_CLASSES | ICC_LINK_CLASS;
 	SetRegistryKey(_T("disba1ancer"));
+	InitCommonControlsEx(&icc);
 	_tcslwr(m_lpCmdLine);
 	if (!_tcscmp(m_lpCmdLine, _T("/s"))) {
 		ReinitWallpaper();

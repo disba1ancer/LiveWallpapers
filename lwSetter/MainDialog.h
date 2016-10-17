@@ -1,5 +1,6 @@
 #pragma once
 #include "afxwin.h"
+#include "afxcmn.h"
 
 
 // диалоговое окно CMainDialog
@@ -40,4 +41,8 @@ public:
 	afx_msg void OnBnClickedSettingsbutton();
 private:
 	CButton settingsButton;
+	CLinkCtrl syslink;
+public:
+	afx_msg void OnNMReturnSyslink(NMHDR *pNMLINK, LRESULT *pResult);
+	afx_msg void OnNMClickSyslink(NMHDR *pNMHDR, LRESULT *pResult);
 };

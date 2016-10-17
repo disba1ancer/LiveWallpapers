@@ -31,6 +31,7 @@ void CMainDialog::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_BROWSEBUTTON, browseButton);
 	DDX_Control(pDX, IDC_APPLYBUTTON, applyButton);
 	DDX_Control(pDX, IDC_SETTINGSBUTTON, settingsButton);
+	DDX_Control(pDX, IDC_SYSLINK, syslink);
 }
 
 
@@ -42,6 +43,8 @@ BEGIN_MESSAGE_MAP(CMainDialog, CDialog)
 	ON_BN_CLICKED(IDC_APPLYBUTTON, &CMainDialog::OnBnClickedApplybutton)
 	ON_BN_CLICKED(IDC_BROWSEBUTTON, &CMainDialog::OnBnClickedBrowsebutton)
 	ON_BN_CLICKED(IDC_SETTINGSBUTTON, &CMainDialog::OnBnClickedSettingsbutton)
+	ON_NOTIFY(NM_RETURN, IDC_SYSLINK, &CMainDialog::OnNMReturnSyslink)
+	ON_NOTIFY(NM_CLICK, IDC_SYSLINK, &CMainDialog::OnNMClickSyslink)
 END_MESSAGE_MAP()
 
 
@@ -151,4 +154,25 @@ void CMainDialog::OnBnClickedSettingsbutton()
 	_tcscpy(args, path.GetString()); //Stack overflow
 	ZeroMemory(&si, sizeof(si));
 	CreateProcess(NULL, args, NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi);
+}
+
+
+void CMainDialog::OnNMReturnSyslink(NMHDR *pNMHDR, LRESULT *pResult)
+{
+	// TODO: добавьте свой код обработчика уведомлений
+	SHELLEXECUTEINFO sei;
+	ZeroMemory(&sei, sizeof(sei));
+	sei.cbSize = sizeof(sei);
+	sei.lpVerb = _T("open");
+	sei.lpFile = ((NMLINK *)pNMHDR)->item.szUrl;
+	sei.nShow = SW_SHOWNORMAL;
+	ShellExecuteEx(&sei);
+	*pResult = 0;
+}
+
+
+void CMainDialog::OnNMClickSyslink(NMHDR *pNMHDR, LRESULT *pResult)
+{
+	// TODO: добавьте свой код обработчика уведомлений
+	OnNMReturnSyslink(pNMHDR, pResult);
 }
